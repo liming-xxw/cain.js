@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cain.js 实验性测试</title>
+  </head>
+  <body>
+    <div class="app">
+      <div>
+        <h4>[xiao]</h4>
+        <p>xiaox iwen[cain]xiaoxiwen</p>
+      </div>
+    </div>
+  </body>
+  <script src="./script/index.js"></script>
+  <script src="./dom/core.js"></script>
+
+  <script>
+    const app = createCain({
+      use: ".app",
+      setup() {
+        const [cain, setCain] = createSignal("xxw");
+        return {
+          cain,
+        };
+      },
+    });
+  </script>
+</html>
