@@ -7,11 +7,11 @@ let cainFuc = {};
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-15 19:27:12
+ * @Last Modified time: 2023-07-15 22:01:05
  */
 const createCain = (app) => {
-  // 判断有没有挂载目标
-  if (!app.use) {
+  // 判断有没有挂载目
+  if (document.querySelector(app.use) == null) {
     console.error("请先挂载目录 / Please mount the directory first");
     return false;
   }
@@ -19,9 +19,11 @@ const createCain = (app) => {
   // 挂载目录
   const use = document.querySelector(app.use);
 
+  // 函数实现
   var ufunc = app.setup();
   cainFuc = ufunc;
 
+  // 核心函数 检索dom
   retrieval(use);
 };
 /*
@@ -31,7 +33,6 @@ const createCain = (app) => {
  * @Last Modified by: mikey.zhaopeng
  * @Last Modified time: 2023-07-15 15:52:12
  */
-
 // 全局方法索引
 let uindex = 0;
 const createSignal = (val) => {

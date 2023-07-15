@@ -3,13 +3,23 @@
  * @Dosc: 根据挂载的dom检索，判断框架语法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-15 19:28:19
+ * @Last Modified time: 2023-07-15 22:09:38
  */
 const retrieval = (node) => {
   if (node.nodeType === Node.TEXT_NODE) {
     let newText = node.textContent.replace(/^\s|\s$/g, "");
     if (newText != "") {
       strTran(newText, node.parentNode);
+    }
+  } else {
+    // 判断c-for
+    if (node.getAttribute("c-for")) {
+      const cFor = node.getAttribute("c-for");
+    }
+    // 判断c-if
+    if (node.getAttribute("c-if")) {
+      const isIf = node.getAttribute("c-if");
+      cIf(isIf, node);
     }
   }
   for (let child = node.firstChild; child; child = child.nextSibling) {
@@ -55,6 +65,35 @@ const strTran = (str, node) => {
             cainFuc[cainJs]() +
             str.slice(arr[1] + 1, str.length);
         });
+      }
+    });
+  }
+};
+
+/*
+ * @Title: c-if 函数
+ * @Dosc: 根据判断布尔值来显示隐藏
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 12:26:27
+ */
+const cIf = (isIf, node) => {
+  if (isIf == "false") {
+    node.style.display = "none";
+  } else if (Boolean(cainFuc[isIf])) {
+    cainFuc[isIf](isIf);
+    Object.values(bucket).forEach((v) => {
+      if (v.use == isIf) {
+        if (!cainFuc[isIf]()) {
+          node.style.display = "none";
+          v.fn.push(() => {
+            if (cainFuc[isIf]()) {
+              node.style.display = "block";
+            } else {
+              node.style.display = "none";
+            }
+          });
+        }
       }
     });
   }

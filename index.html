@@ -9,7 +9,14 @@
     <div class="app">
       <div>
         <h4>[xiao]</h4>
-        <p>xiaox iwen[cain]xiaoxiwen</p>
+        <p c-if="true">xiaox iwen[cain]xiaoxiwen</p>
+
+        <p c-for="(item,index) in ar">[item]</p>
+        <div c-for="(item,index) in ar">
+          <div>
+            <h4>[item]</h4>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -21,8 +28,12 @@
       use: ".app",
       setup() {
         const [cain, setCain] = createSignal("xxw");
+        const [flag, setFlag] = createSignal(false);
+        const [ar, setAr] = createSignal(["xiao", "xiao"]);
         return {
           cain,
+          ar,
+          flag,
         };
       },
     });
