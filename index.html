@@ -8,9 +8,8 @@
   <body>
     <div class="app">
       <div>
-        <h4>[xiao]</h4>
-        <p c-if="true">xiaox iwen[cain]xiaoxiwen</p>
-
+        <h4 c-if="flag">[xiao]</h4>
+        <p c-click="setFlag(kk)">xiaox iwen[cain]xiaoxiwen</p>
         <p c-for="(item,index) in ar">[item]</p>
         <div c-for="(item,index) in ar">
           <div>
@@ -22,6 +21,8 @@
   </body>
   <script src="./script/index.js"></script>
   <script src="./dom/core.js"></script>
+  <script src="./dom/directive.js"></script>
+  <script src="./utils/strTarn.js"></script>
 
   <script>
     const app = createCain({
@@ -29,11 +30,14 @@
       setup() {
         const [cain, setCain] = createSignal("xxw");
         const [flag, setFlag] = createSignal(false);
+        const [kk, setKk] = createSignal(true);
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
         return {
           cain,
           ar,
           flag,
+          setFlag,
+          kk,
         };
       },
     });
