@@ -3,16 +3,16 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-15 23:37:15
+ * @Last Modified time: 2023-07-16 14:52:03
  */
-const directive = (dir, name, node) => {
+const directive = (dir, name, node, event) => {
   if (name) {
     switch (dir) {
       case "c-if":
         cIf(name, node);
         break;
-      case "c-click":
-        cClick(name, node);
+      case "c-on":
+        cOn(name, node, event);
         break;
     }
   }
@@ -48,14 +48,14 @@ const cIf = (isIf, node) => {
 };
 
 /*
- * @Title: c-click 函数
+ * @Title: c-on 函数
  * @Dosc: 处理好元素的点击方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
  * @Last Modified time: 2023-07-15 22:33:58
  */
-const cClick = (func, node) => {
-  node.onclick = () => {
+const cOn = (func, node, event) => {
+  node.addEventListener(event, () => {
     const { fuc, val } = strSpliceFuc(func, "(", ")");
     //  判断传递的值是不是注册的方法
     if (cainFuc[fuc]) {
@@ -63,10 +63,14 @@ const cClick = (func, node) => {
       if (cainFuc[val]) {
         cainFuc[fuc](cainFuc[val]());
       } else {
-        cainFuc[fuc](val);
+        if (val == "true" || val == "false") {
+          cainFuc[fuc](val === "true" ? true : false);
+        } else {
+          cainFuc[fuc](val);
+        }
       }
     } else {
       new Function(func)();
     }
-  };
+  });
 };

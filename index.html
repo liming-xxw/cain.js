@@ -9,7 +9,7 @@
     <div class="app">
       <div>
         <h4 c-if="flag">[xiao]</h4>
-        <p c-click="setFlag(kk)">xiaox iwen[cain]xiaoxiwen</p>
+        <div style="width: 100px;height: 100px;background-color: red;" c-on:mousemove="setFlag(true)" c-on:mouseout="setFlag(false)">xiaox iwen[cain]xiaoxiwen</div>
         <p c-for="(item,index) in ar">[item]</p>
         <div c-for="(item,index) in ar">
           <div>
