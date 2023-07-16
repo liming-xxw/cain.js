@@ -9,7 +9,13 @@
     <div class="app">
       <div>
         <h4 c-if="flag">[xiao]</h4>
-        <div style="width: 100px;height: 100px;background-color: red;" c-on:mousemove="setFlag(true)" c-on:mouseout="setFlag(false)">xiaox iwen[cain]xiaoxiwen</div>
+        <p c-else>xiaoxiwen</p>
+        <div
+          style="width: 100px; height: 100px; background-color: red"
+          c-on:click="kai()"
+        >
+          xiaox iwen[cain]xiaoxiwen
+        </div>
         <p c-for="(item,index) in ar">[item]</p>
         <div c-for="(item,index) in ar">
           <div>
@@ -32,12 +38,18 @@
         const [flag, setFlag] = createSignal(false);
         const [kk, setKk] = createSignal(true);
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
+
+        const kai = (el) => {
+          console.log(kk());
+          console.log(el);
+        };
         return {
           cain,
           ar,
           flag,
           setFlag,
           kk,
+          kai,
         };
       },
     });

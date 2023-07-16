@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-16 14:52:03
+ * @Last Modified time: 2023-07-17 00:33:05
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -55,22 +55,13 @@ const cIf = (isIf, node) => {
  * @Last Modified time: 2023-07-15 22:33:58
  */
 const cOn = (func, node, event) => {
-  node.addEventListener(event, () => {
+  node.addEventListener(event, (el) => {
     const { fuc, val } = strSpliceFuc(func, "(", ")");
-    //  判断传递的值是不是注册的方法
-    if (cainFuc[fuc]) {
-      // 判断传入方法的值是不是注册的值
-      if (cainFuc[val]) {
-        cainFuc[fuc](cainFuc[val]());
-      } else {
-        if (val == "true" || val == "false") {
-          cainFuc[fuc](val === "true" ? true : false);
-        } else {
-          cainFuc[fuc](val);
-        }
-      }
-    } else {
+    //  判断方法有没有传值，没有就将默认的el元素传递进去，模拟原生事件
+    if (val) {
       new Function(func)();
+    } else {
+      cainFuc[fuc](el);
     }
   });
 };
