@@ -7,7 +7,7 @@ let cainFuc = {};
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-17 00:25:45
+ * @Last Modified time: 2023-07-17 09:04:41
  */
 const createCain = (app) => {
   // 判断有没有挂载目
@@ -21,9 +21,6 @@ const createCain = (app) => {
 
   // 函数实现
   var ufunc = app.setup();
-  Object.keys(ufunc).forEach((v) => {
-    window[v] = ufunc[v];
-  });
   cainFuc = ufunc;
 
   // 核心函数 检索dom

@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-17 00:33:05
+ * @Last Modified time: 2023-07-17 09:19:42
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -59,7 +59,8 @@ const cOn = (func, node, event) => {
     const { fuc, val } = strSpliceFuc(func, "(", ")");
     //  判断方法有没有传值，没有就将默认的el元素传递进去，模拟原生事件
     if (val) {
-      new Function(func)();
+      let expInstance = new createExpInstance();
+      expInstance.executeCode(func);
     } else {
       cainFuc[fuc](el);
     }

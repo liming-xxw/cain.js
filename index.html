@@ -12,7 +12,7 @@
         <p c-else>xiaoxiwen</p>
         <div
           style="width: 100px; height: 100px; background-color: red"
-          c-on:click="kai()"
+          c-on:click="kai('xiaoxiwen')"
         >
           xiaox iwen[cain]xiaoxiwen
         </div>
@@ -26,8 +26,8 @@
     </div>
   </body>
   <script src="./script/index.js"></script>
-  <script src="./dom/core.js"></script>
-  <script src="./dom/directive.js"></script>
+  <script src="./package/core.js"></script>
+  <script src="./package/directive.js"></script>
   <script src="./utils/strTarn.js"></script>
 
   <script>
@@ -40,9 +40,9 @@
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
 
         const kai = (el) => {
-          console.log(kk());
           console.log(el);
         };
+        
         return {
           cain,
           ar,
