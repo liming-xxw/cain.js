@@ -8,9 +8,15 @@
   <body>
     <div class="app">
       <div>
-        <h4 c-if="flag">[xiao]</h4>
+        <h4
+          
+          c-bind:style="{color:cain() ? kk() : 'red' ,fontSize:'3rem',background:cain() ? kk() : 'red'}"
+        >
+          [ar()]
+        </h4>
         <p c-else>xiaoxiwen</p>
         <div
+          c-bind:style="{color:cain() ? kk() : 'red' , fontSize:'3rem',background:'yellow'}"
           style="width: 100px; height: 100px; background-color: red"
           c-on:click="kai('xiaoxiwen')"
         >
@@ -34,15 +40,18 @@
     const app = createCain({
       use: ".app",
       setup() {
-        const [cain, setCain] = createSignal("xxw");
+        const [cain, setCain] = createSignal(true);
         const [flag, setFlag] = createSignal(false);
-        const [kk, setKk] = createSignal(true);
+      
+        const [kk, setKk] = createSignal("yellow");
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
-
+        setTimeout(() => {
+          setCain(false);
+        }, 1000);
         const kai = (el) => {
-          console.log(el);
+          console.log(ar());
         };
-        
+
         return {
           cain,
           ar,
