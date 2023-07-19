@@ -3,7 +3,7 @@
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-17 08:55:21
+ * @Last Modified time: 2023-07-19 08:54:02
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -33,6 +33,35 @@ const strSpliceFuc = (str, sliceOne, sliceTow) => {
   };
 };
 
+/*
+ * @Title: 分割对象字符串
+ * @Dosc: 根据传过来的字符串分割方法并且返回对象
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-17 08:55:21
+ */
+const strObject = (str) => {
+  var pairs = str.slice(1, -1).split(",");
+  var obj = {};
+  pairs.forEach((pair) => {
+    var parts = pair.split(":");
+    if (parts.length == 1) {
+      console.error("error");
+      return false;
+    }
+    var key = parts[0].trim();
+    var value = parts[1]?.trim();
+
+    // 去除属性名和属性值的引号（如果存在）
+    if (value?.startsWith("'") && value?.endsWith("'")) {
+      value = value.slice(1, -1);
+    }
+
+    // 将属性名和属性值添加到对象中
+    obj[key] = value;
+  });
+  return obj;
+};
 
 /*
  * @Title: 根据str判断有没有插值表达式

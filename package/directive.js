@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-18 12:46:55
+ * @Last Modified time: 2023-07-19 12:49:12
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -70,24 +70,17 @@ const cOn = (func, node, event) => {
   });
 };
 
+/*
+ * @Title: c-bind
+ * @Dosc: 处理好元素动态绑定的值
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 22:33:58
+ */
 const cBind = (func, node, event) => {
   if (event == "style") {
-    var pairs = func.slice(1, -1).split(",");
-    var obj = {};
-    pairs.forEach(function (pair) {
-      // 分割属性名和属性值
-      var parts = pair.split(":");
-      var key = parts[0].trim();
-      var value = parts[1].trim();
-
-      // 去除属性名和属性值的引号（如果存在）
-      if (value.startsWith("'") && value.endsWith("'")) {
-        value = value.slice(1, -1);
-      }
-
-      // 将属性名和属性值添加到对象中
-      obj[key] = value;
-    });
+    let obj = {};
+    obj = strObject(func);
     const styleArr = {};
     Object.keys(obj).forEach((v) => {
       var match = obj[v].match(/^(.*?)\(/);
@@ -103,6 +96,7 @@ const cBind = (func, node, event) => {
         };
       }
     });
+
     let expInstance = new createExpInstance();
     let bindstyle = expInstance.executeCode(func);
     Object.keys(bindstyle).forEach((v) => {
@@ -124,18 +118,73 @@ const cBind = (func, node, event) => {
         });
       }
     });
-
-    // if (styleArr[v].is) {
-    //   cainFuc[styleArr[v].fuc](styleArr[v].fuc);
-    //   Object.values(bucket).forEach((k) => {
-    //     if (k.use == styleArr[v].fuc) {
-    //       k.fn.push(() => {
-    //         let expInstance = new createExpInstance();
-    //         let bindstyle = expInstance.executeCode(func);
-    //         node.style[v] = bindstyle[v];
-    //       });
-    //     }
-    //   });
-    // }
+  } else if (event == "class") {
+    let obj = {};
+    obj = strObject(func);
+    const styleArr = {};
+    Object.keys(obj).forEach((v) => {
+      var match = obj[v].match(/^(.*?)\(/);
+      if (match && match.length > 1) {
+        var extractedString = match[1];
+        styleArr[v] = {
+          fuc: extractedString,
+          is: true,
+        };
+      } else {
+        styleArr[v] = {
+          is: false,
+        };
+      }
+    });
+    let expInstance = new createExpInstance();
+    let bindClass = expInstance.executeCode(func);
+    Object.keys(bindClass).forEach((v) => {
+      if (bindClass[v]) {
+        node.classList.add(v);
+      } else {
+        node.classList.remove(v);
+      }
+    });
+    Object.keys(styleArr).forEach((v) => {
+      let sAr = styleArr[v];
+      if (sAr.is) {
+        cainFuc[sAr.fuc](sAr.fuc);
+        Object.values(bucket).forEach((k) => {
+          if (k.use == sAr.fuc) {
+            k.fn.push(() => {
+              let expInstance = new createExpInstance();
+              let bindClass = expInstance.executeCode(func);
+              if (bindClass[v]) {
+                node.classList.add(v);
+              } else {
+                node.classList.remove(v);
+              }
+            });
+          }
+        });
+      }
+    });
+  } else {
+    let expInstance = new createExpInstance();
+    let bindClass = expInstance.executeCode(func);
+    let styleArr = "";
+    var match = func.match(/^(.*?)\(/);
+    if (match && match.length > 1) {
+      var extractedString = match[1];
+      styleArr = extractedString;
+    } else {
+      extractedString = false;
+    }
+    node[event] = bindClass;
+    cainFuc[styleArr](styleArr);
+    Object.values(bucket).forEach((k) => {
+      if (k.use == styleArr) {
+        k.fn.push(() => {
+          let expInstance = new createExpInstance();
+          let bindClass = expInstance.executeCode(func);
+          node[event] = bindClass;
+        });
+      }
+    });
   }
 };

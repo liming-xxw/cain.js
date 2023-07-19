@@ -9,11 +9,12 @@
     <div class="app">
       <div>
         <h4
-          
-          c-bind:style="{color:cain() ? kk() : 'red' ,fontSize:'3rem',background:cain() ? kk() : 'red'}"
+          c-bind:class="{font:cain()}"
+          c-bind:style="{color:kk(),fontSize:'3rem',background:cain() ? kk() : 'red'}"
         >
           [ar()]
         </h4>
+        <button c-bind:disabled="cain()">Cain</button>
         <p c-else>xiaoxiwen</p>
         <div
           c-bind:style="{color:cain() ? kk() : 'red' , fontSize:'3rem',background:'yellow'}"
@@ -42,7 +43,7 @@
       setup() {
         const [cain, setCain] = createSignal(true);
         const [flag, setFlag] = createSignal(false);
-      
+
         const [kk, setKk] = createSignal("yellow");
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
         setTimeout(() => {
