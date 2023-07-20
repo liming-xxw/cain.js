@@ -3,13 +3,14 @@
  * @Dosc: 根据挂载的dom检索，判断框架语法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-19 22:16:26
+ * @Last Modified time: 2023-07-20 10:20:10
  */
 const retrieval = (node) => {
   if (node.nodeType === Node.TEXT_NODE) {
     let newText = node.textContent.replace(/^\s|\s$/g, "");
     if (newText != "") {
-      strTran(newText, node.parentNode);
+      // strTran(newText, node.parentNode);
+      cainExpression(newText, node.parentNode);
     }
   } else {
     // directive(node.getAttribute("c-for"), node);

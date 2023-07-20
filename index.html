@@ -10,10 +10,9 @@
       <div>
         <h4
           c-bind:class="{font:cain()}"
-          c-text="ar()"
           c-bind:style="{color:kk(),fontSize:'3rem',background:cain() ? kk() : 'red'}"
         >
-          [ar()]
+          xiaoxiwen{{ ar() }}kaixin{{ ar()}}
         </h4>
         <button c-bind:disabled="cain()">Cain</button>
         <p c-else>xiaoxiwen</p>
@@ -37,6 +36,7 @@
   <script src="./package/core.js"></script>
   <script src="./package/directive.js"></script>
   <script src="./utils/strTarn.js"></script>
+  <script src="./package/responsive.js"></script>
 
   <script>
     const app = createCain({
@@ -49,7 +49,7 @@
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
         setTimeout(() => {
           setCain(false);
-          setAr(['x','aa'])
+          setAr(["x", "aa"]);
         }, 1000);
         const kai = (el) => {
           console.log(ar());

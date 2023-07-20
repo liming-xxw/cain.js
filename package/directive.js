@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-19 22:23:10
+ * @Last Modified time: 2023-07-20 12:52:32
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -24,6 +24,30 @@ const directive = (dir, name, node, event) => {
         cHtml;
         break;
     }
+  }
+};
+
+/*
+ * @Title: 插值表达式
+ * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.cain
+ * @Last Modified time: 2023-07-15 22:33:58
+ */
+var cainStr = "";
+const cainExpression = (str, node) => {
+  //  定义好正则匹配
+  cainStr = "";
+  const regex = /{{(.*?)}}/g;
+  const result = str.replace(regex, strRegex);
+  if (cainFuc[cainStr]) {
+    node.innerText = result;
+    addResponsive(cainStr, () => {
+      const result = str.replace(regex, strRegex);
+      if (cainFuc[cainStr]) {
+        node.innerText = result;
+      }
+    });
   }
 };
 

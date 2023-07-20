@@ -3,7 +3,7 @@
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-19 22:27:32
+ * @Last Modified time: 2023-07-20 12:49:32
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -87,7 +87,7 @@ const strTran = (str, node) => {
     }
   }
   const cainJs = str.slice(arr[0] + 1, arr[1]);
-  console.log(str)
+  console.log(str);
   if (cainFuc[cainJs]) {
     cainFuc[cainJs](cainJs);
     Object.values(bucket).forEach((v) => {
@@ -105,4 +105,22 @@ const strTran = (str, node) => {
       }
     });
   }
+};
+
+/*
+ * @Title: 插值表达式正则匹配
+ * @Dosc: 根据传入的正则数据自动运行然后将代码提取出来返回
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 12:26:27
+ */
+const strRegex = (match, capturedValue) => {
+  let strArr = returnExpInstance(capturedValue);
+  let cainf = strSpliceFuc(capturedValue.trim(), "(", ")");
+  if (Array.isArray) {
+    strArr = `[${strArr}]`;
+  }
+  cainFuc[cainf.fuc](cainf.fuc);
+  cainStr = cainf.fuc
+  return strArr;
 };
