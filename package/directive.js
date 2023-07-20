@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-20 12:52:32
+ * @Last Modified time: 2023-07-20 16:20:35
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -21,7 +21,10 @@ const directive = (dir, name, node, event) => {
         cText(name, node);
         break;
       case "c-html":
-        cHtml;
+        cHtml(name, node);
+        break;
+      case "c-for":
+        cFor(name, node);
         break;
     }
   }
@@ -272,4 +275,16 @@ const cBind = (func, node, event) => {
       }
     });
   }
+};
+
+/*
+ * @Title: c-for
+ * @Dosc: 处理元素的循环操作
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 22:33:58
+ */
+const cFor = (func, node) => {
+  console.log(func);
+  console.log(node);
 };

@@ -3,7 +3,7 @@
  * @Dosc: 根据挂载的dom检索，判断框架语法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-20 10:20:10
+ * @Last Modified time: 2023-07-20 17:15:22
  */
 const retrieval = (node) => {
   if (node.nodeType === Node.TEXT_NODE) {
@@ -13,7 +13,7 @@ const retrieval = (node) => {
       cainExpression(newText, node.parentNode);
     }
   } else {
-    // directive(node.getAttribute("c-for"), node);
+    directive("c-for", node.getAttribute("c-for"), node);
     directive("c-if", node.getAttribute("c-if"), node);
     directive("c-text", node.getAttribute("c-text"), node);
     const attr = node.attributes;
@@ -32,30 +32,4 @@ const retrieval = (node) => {
   for (let child = node.firstChild; child; child = child.nextSibling) {
     retrieval(child);
   }
-};
-
-/*
- * @Title: 执行函数方法
- * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
- * @Date: 2023-07-14 20:31:08
- * @Last Modified by: mikey.cain
- * @Last Modified time: 2023-07-17 09:01:42
- */
-function createExpInstance() {
-  for (let key in cainFuc) {
-    this[key] = cainFuc[key];
-  }
-}
-// 挂载原型链
-createExpInstance.prototype.executeCode = function (code) {
-  let strCode = `return (()=>{with (this) {return ${code}}})()`;
-  let func = new Function(strCode);
-  let currentFunc = func.bind(this);
-  return currentFunc();
-};
-
-const returnExpInstance = (func) => {
-  let expInstance = new createExpInstance();
-  let code = expInstance.executeCode(func);
-  return code;
 };
