@@ -10,6 +10,7 @@
       <div>
         <h4
           c-bind:class="{font:cain()}"
+          c-text="ar()"
           c-bind:style="{color:kk(),fontSize:'3rem',background:cain() ? kk() : 'red'}"
         >
           [ar()]
@@ -48,6 +49,7 @@
         const [ar, setAr] = createSignal(["xiao", "xiao"]);
         setTimeout(() => {
           setCain(false);
+          setAr(['x','aa'])
         }, 1000);
         const kai = (el) => {
           console.log(ar());

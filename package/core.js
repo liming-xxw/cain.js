@@ -3,7 +3,7 @@
  * @Dosc: 根据挂载的dom检索，判断框架语法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-17 12:58:00
+ * @Last Modified time: 2023-07-19 22:16:26
  */
 const retrieval = (node) => {
   if (node.nodeType === Node.TEXT_NODE) {
@@ -14,7 +14,7 @@ const retrieval = (node) => {
   } else {
     // directive(node.getAttribute("c-for"), node);
     directive("c-if", node.getAttribute("c-if"), node);
-    directive("c-click", node.getAttribute("c-click"), node);
+    directive("c-text", node.getAttribute("c-text"), node);
     const attr = node.attributes;
     for (var i = 0; i < attr.length; i++) {
       let attribute = attr[i];
@@ -25,7 +25,6 @@ const retrieval = (node) => {
       if (/^c-bind:/.test(attribute.name)) {
         const strArr = attribute.nodeName.split(":");
         directive("c-bind", attribute.nodeValue, node, strArr[1]);
-      
       }
     }
   }
@@ -52,4 +51,10 @@ createExpInstance.prototype.executeCode = function (code) {
   let func = new Function(strCode);
   let currentFunc = func.bind(this);
   return currentFunc();
+};
+
+const returnExpInstance = (func) => {
+  let expInstance = new createExpInstance();
+  let code = expInstance.executeCode(func);
+  return code;
 };

@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-19 12:49:12
+ * @Last Modified time: 2023-07-19 22:23:10
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -16,6 +16,12 @@ const directive = (dir, name, node, event) => {
         break;
       case "c-bind":
         cBind(name, node, event);
+        break;
+      case "c-text":
+        cText(name, node);
+        break;
+      case "c-html":
+        cHtml;
         break;
     }
   }
@@ -51,6 +57,60 @@ const cIf = (isIf, node) => {
 };
 
 /*
+ * @Title: c-text 函数
+ * @Dosc: 根据传输过来的值,响应之后直接覆盖该dom元素的文本
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 22:33:58
+ */
+const cText = (func, node) => {
+  // 执行code返回
+  const code = returnExpInstance(func);
+  let strOk = strSpliceFuc(func, "(", ")");
+  let str = code;
+  if (Array.isArray(code)) {
+    str = `[${code}]`;
+  }
+  node.innerText = String(str);
+  cainFuc[strOk.fuc](strOk.fuc);
+  Object.values(bucket).forEach((k) => {
+    if (k.use == strOk.fuc) {
+      k.fn.push(() => {
+        const code = returnExpInstance(func);
+        let str = code;
+        if (Array.isArray(code)) {
+          str = `[${code}]`;
+        }
+        node.innerText = String(str);
+      });
+    }
+  });
+};
+
+/*
+ * @Title: c-html 函数
+ * @Dosc: 根据传输过来的值,响应之后直接覆盖该dom元素的html
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 22:33:58
+ */
+const cHtml = (func, node) => {
+  // 执行code返回
+  const code = returnExpInstance(func);
+  let strOk = strSpliceFuc(func, "(", ")");
+  node.innerHTML = code;
+  cainFuc[strOk.fuc](strOk.fuc);
+  Object.values(bucket).forEach((k) => {
+    if (k.use == strOk.fuc) {
+      k.fn.push(() => {
+        const code = returnExpInstance(func);
+        node.innerHTML = code;
+      });
+    }
+  });
+};
+
+/*
  * @Title: c-on 函数
  * @Dosc: 处理好元素的点击方法
  * @Date: 2023-07-14 20:31:08
@@ -73,6 +133,7 @@ const cOn = (func, node, event) => {
 /*
  * @Title: c-bind
  * @Dosc: 处理好元素动态绑定的值
+ * @flag: 待优化，实现原理可以更加简单便捷
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
  * @Last Modified time: 2023-07-15 22:33:58
