@@ -3,8 +3,10 @@
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-20 14:44:30
+ * @Last Modified time: 2023-07-26 07:49:43
  */
+let expInstance = null;
+
 function createExpInstance() {
   for (let key in cainFuc) {
     this[key] = cainFuc[key];
@@ -17,6 +19,20 @@ createExpInstance.prototype.executeCode = function (code) {
   let currentFunc = func.bind(this);
   return currentFunc();
 };
+// 加载特殊变量
+createExpInstance.prototype.setCode = function (ar) {
+  for (let key in ar) {
+    this[key] = ar[key];
+    cainFuc[key] = ar[key];
+  }
+};
+// 删除变量
+createExpInstance.prototype.removeCode = function (ar) {
+  for (let key in ar) {
+    delete this[key];
+    delete cainFuc[key];
+  }
+};
 
 /*
  * @Title: 返回执行的响应式函数
@@ -26,9 +42,20 @@ createExpInstance.prototype.executeCode = function (code) {
  * @Last Modified time: 2023-07-20 14:42:57
  */
 const returnExpInstance = (func) => {
-  let expInstance = new createExpInstance();
+  if (expInstance == null) {
+    expInstance = new createExpInstance();
+  }
   let code = expInstance.executeCode(func);
   return code;
+};
+
+// 添加执行变量方法
+const addExpInstance = (ar) => {
+  expInstance.setCode(ar);
+};
+// 删除执行变量方法
+const removeExpInstance = (ar) => {
+  expInstance.removeCode(ar);
 };
 
 /*

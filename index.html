@@ -6,29 +6,27 @@
     <title>Cain.js 实验性测试</title>
   </head>
   <body>
-    <div class="app">
-      <div>
-        <h4
-          c-bind:class="{font:cain()}"
-          c-bind:style="{color:kk(),fontSize:'3rem',background:cain() ? kk() : 'red'}"
-        >
-          xiaoxiwen{{ ar() }}kaixin{{ ar()}}
-        </h4>
-        <button c-bind:disabled="cain()">Cain</button>
-        <p c-else>xiaoxiwen</p>
-        <div
-          c-bind:style="{color:cain() ? kk() : 'red' , fontSize:'3rem',background:'yellow'}"
-          style="width: 100px; height: 100px; background-color: red"
-          c-on:click="kai('xiaoxiwen')"
-        >
-          xiaox iwen[cain]xiaoxiwen
-        </div>
-        <div c-for="(item,index) in ar()">
-          <div>
-            <h4>[item]</h4>
-          </div>
-        </div>
-      </div>
+    <div
+      class="app"
+      style="display: flex; flex-direction: column; align-items: center"
+    >
+      <h4>黎明水族</h4>
+      <div>非常感谢您的注册，点击下方按钮即可完成注册验证!</div>
+      <a
+        href=""
+        style="
+          text-decoration: none;
+          display: inline;
+          background-color: #154599;
+          color: white;
+          border-radius: 5px;
+          padding: 7px 25px;
+          margin-top: 10px;
+        "
+      >
+        注册
+      </a>
+      <div c-for="(item,index) in ar()">{{ item() }}</div>
     </div>
   </body>
   <script src="./script/index.js"></script>
@@ -45,7 +43,7 @@
         const [flag, setFlag] = createSignal(false);
 
         const [kk, setKk] = createSignal("yellow");
-        const [ar, setAr] = createSignal(["xiao", "xiao"]);
+        const [ar, setAr] = createSignal(["xiao", "xiaoxiwen"]);
         setTimeout(() => {
           setCain(false);
           setAr(["x", "aa"]);

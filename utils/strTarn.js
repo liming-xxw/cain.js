@@ -3,7 +3,7 @@
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-20 14:42:07
+ * @Last Modified time: 2023-07-26 07:21:06
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -73,9 +73,10 @@ const strObject = (str) => {
 const strRegex = (match, capturedValue) => {
   let strArr = returnExpInstance(capturedValue);
   let cainf = strSpliceFuc(capturedValue.trim(), "(", ")");
-  if (Array.isArray) {
+  if (Array.isArray(strArr)) {
     strArr = `[${strArr}]`;
   }
+
   cainFuc[cainf.fuc](cainf.fuc);
   cainStr = cainf.fuc
   return strArr;

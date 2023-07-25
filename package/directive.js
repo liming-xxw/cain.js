@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-20 16:20:35
+ * @Last Modified time: 2023-07-26 07:49:36
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -284,7 +284,81 @@ const cBind = (func, node, event) => {
  * @Last Modified by: mikey.zhaopeng
  * @Last Modified time: 2023-07-15 22:33:58
  */
+
+// c-for 预想实现原理，分割字符串，然后将in 后面的值转化为数据，找到前面的字符串，去搜索dom然后找到有匹配的值之后自动识别
 const cFor = (func, node) => {
-  console.log(func);
-  console.log(node);
+  const cfor = func.split(" in ");
+  const item = strSpliceFuc(cfor[0].trim(), "(", ")");
+  const KeyIn = item.val.split(",");
+  const code = cfor[1].trim();
+  const arrCode = returnExpInstance(code);
+  node.removeAttribute("c-for");
+  const parNode = node.parentNode;
+  const oldHtml = node.cloneNode(true);
+  node.innerHTML = "";
+  let nodeArr = [];
+  arrCode.forEach((val, index) => {
+    let appNode = oldHtml.cloneNode(true);
+    const item = {};
+    item[KeyIn[0]] = (el) => {
+      return val;
+    };
+    addExpInstance(item);
+    retrieval(appNode);
+    removeExpInstance(item);
+    parNode.appendChild(appNode);
+    nodeArr.push(appNode);
+  });
+  let strCode = strSpliceFuc(code, "(", ")");
+  cainFuc[strCode.fuc](strCode.fuc);
+  addResponsive(strCode.fuc, () => {
+    const arrCode = returnExpInstance(code);
+    let ar = [...nodeArr];
+    nodeArr = [];
+    arrCode.forEach((val, index) => {
+      parNode.removeChild(ar[index]);
+      let appNode = oldHtml.cloneNode(true);
+      const item = {};
+      item[KeyIn[0]] = (el) => {
+        return val;
+      };
+      addExpInstance(item);
+      retrieval(appNode);
+      removeExpInstance(item);
+      parNode.appendChild(appNode);
+      nodeArr.push(appNode);
+    });
+  });
+};
+
+// c-for
+const deepCloneNode = (node) => {
+  if (!node) return null;
+
+  if (node.nodeType === Node.TEXT_NODE) {
+    // 处理文本节点
+    return document.createTextNode(node.textContent);
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+    // 处理元素节点
+    const newNode = document.createElement(node.tagName);
+
+    // 复制元素节点的属性
+    for (let i = 0; i < node.attributes.length; i++) {
+      const attr = node.attributes[i];
+      newNode.setAttribute(attr.name, attr.value);
+    }
+
+    // 递归复制子节点
+    for (let i = 0; i < node.childNodes.length; i++) {
+      const childNode = node.childNodes[i];
+      const clonedChild = deepCloneNode(childNode);
+      if (clonedChild) {
+        newNode.appendChild(clonedChild);
+      }
+    }
+
+    return newNode;
+  }
+
+  return null;
 };
