@@ -7,7 +7,7 @@ let cainFuc = {};
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-17 09:04:41
+ * @Last Modified time: 2023-07-26 15:08:09
  */
 const createCain = (app) => {
   // 判断有没有挂载目

@@ -26,6 +26,9 @@
       >
         注册
       </a>
+      <div c-if="cain()">
+           c-if显示隐藏
+      </div>
       <div c-for="(item,index) in ar()">{{ item() }}</div>
     </div>
   </body>
@@ -46,7 +49,6 @@
         const [ar, setAr] = createSignal(["xiao", "xiaoxiwen"]);
         setTimeout(() => {
           setCain(false);
-          setAr(["x", "aa"]);
         }, 1000);
         const kai = (el) => {
           console.log(ar());

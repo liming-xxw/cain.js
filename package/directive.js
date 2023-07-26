@@ -3,7 +3,7 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 07:49:36
+ * @Last Modified time: 2023-07-26 15:18:50
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -62,25 +62,14 @@ const cainExpression = (str, node) => {
  * @Last Modified time: 2023-07-15 22:33:58
  */
 const cIf = (isIf, node) => {
-  if (isIf == "false") {
-    node.style.display = "none";
-  } else if (Boolean(cainFuc[isIf])) {
-    cainFuc[isIf](isIf);
-    Object.values(bucket).forEach((v) => {
-      if (v.use == isIf) {
-        if (!cainFuc[isIf]()) {
-          node.style.display = "none";
-          v.fn.push(() => {
-            if (cainFuc[isIf]()) {
-              node.style.display = "block";
-            } else {
-              node.style.display = "none";
-            }
-          });
-        }
-      }
-    });
-  }
+  const code = returnExpInstance(isIf);
+  node.style.display = code ? "block" : "none";
+  const func = strSpliceFuc(isIf, "(", ")");
+  cainFuc[func.fuc](func.fuc);
+  addResponsive(func.fuc, () => {
+    const code = returnExpInstance(isIf);
+    node.style.display = code ? "block" : "none";
+  });
 };
 
 /*
@@ -100,17 +89,13 @@ const cText = (func, node) => {
   }
   node.innerText = String(str);
   cainFuc[strOk.fuc](strOk.fuc);
-  Object.values(bucket).forEach((k) => {
-    if (k.use == strOk.fuc) {
-      k.fn.push(() => {
-        const code = returnExpInstance(func);
-        let str = code;
-        if (Array.isArray(code)) {
-          str = `[${code}]`;
-        }
-        node.innerText = String(str);
-      });
+  addResponsive(strOk.fuc, () => {
+    const code = returnExpInstance(func);
+    let str = code;
+    if (Array.isArray(code)) {
+      str = `[${code}]`;
     }
+    node.innerText = String(str);
   });
 };
 
@@ -122,18 +107,13 @@ const cText = (func, node) => {
  * @Last Modified time: 2023-07-15 22:33:58
  */
 const cHtml = (func, node) => {
-  // 执行code返回
   const code = returnExpInstance(func);
   let strOk = strSpliceFuc(func, "(", ")");
   node.innerHTML = code;
   cainFuc[strOk.fuc](strOk.fuc);
-  Object.values(bucket).forEach((k) => {
-    if (k.use == strOk.fuc) {
-      k.fn.push(() => {
-        const code = returnExpInstance(func);
-        node.innerHTML = code;
-      });
-    }
+  addResponsive(strOk.fuc, () => {
+    const code = returnExpInstance(func);
+    node.innerHTML = code;
   });
 };
 
@@ -329,36 +309,4 @@ const cFor = (func, node) => {
       nodeArr.push(appNode);
     });
   });
-};
-
-// c-for
-const deepCloneNode = (node) => {
-  if (!node) return null;
-
-  if (node.nodeType === Node.TEXT_NODE) {
-    // 处理文本节点
-    return document.createTextNode(node.textContent);
-  } else if (node.nodeType === Node.ELEMENT_NODE) {
-    // 处理元素节点
-    const newNode = document.createElement(node.tagName);
-
-    // 复制元素节点的属性
-    for (let i = 0; i < node.attributes.length; i++) {
-      const attr = node.attributes[i];
-      newNode.setAttribute(attr.name, attr.value);
-    }
-
-    // 递归复制子节点
-    for (let i = 0; i < node.childNodes.length; i++) {
-      const childNode = node.childNodes[i];
-      const clonedChild = deepCloneNode(childNode);
-      if (clonedChild) {
-        newNode.appendChild(clonedChild);
-      }
-    }
-
-    return newNode;
-  }
-
-  return null;
 };

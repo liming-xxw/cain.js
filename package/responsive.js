@@ -3,8 +3,9 @@
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 07:49:43
+ * @Last Modified time: 2023-07-26 15:02:02
  */
+
 let expInstance = null;
 
 function createExpInstance() {
