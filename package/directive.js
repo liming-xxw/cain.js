@@ -3,13 +3,16 @@
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 15:18:50
+ * @Last Modified time: 2023-07-26 15:39:56
  */
 const directive = (dir, name, node, event) => {
   if (name) {
     switch (dir) {
       case "c-if":
         cIf(name, node);
+        break;
+      case "c-show":
+        cShow(name, node);
         break;
       case "c-on":
         cOn(name, node, event);
@@ -62,6 +65,24 @@ const cainExpression = (str, node) => {
  * @Last Modified time: 2023-07-15 22:33:58
  */
 const cIf = (isIf, node) => {
+  const code = returnExpInstance(isIf);
+  node.style.display = code ? "block" : "none";
+  const func = strSpliceFuc(isIf, "(", ")");
+  cainFuc[func.fuc](func.fuc);
+  addResponsive(func.fuc, () => {
+    const code = returnExpInstance(isIf);
+    node.style.display = code ? "block" : "none";
+  });
+};
+
+/*
+ * @Title: c-show 函数
+ * @Dosc: 根据判断布尔值来显示隐藏
+ * @Date: 2023-07-14 20:31:08
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-15 22:33:58
+ */
+const cShow = (isIf, node) => {
   const code = returnExpInstance(isIf);
   node.style.display = code ? "block" : "none";
   const func = strSpliceFuc(isIf, "(", ")");
