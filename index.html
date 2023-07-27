@@ -26,12 +26,8 @@
       >
         注册
       </a>
-      <div c-if="cain()">
-           c-if显示隐藏
-      </div>
-      <div c-show="cain()">
-        c-show控制显示影藏
-      </div>
+      <div c-if="cain()">c-if显示隐藏</div>
+      <div c-show="cain()">c-show控制显示影藏</div>
       <div c-for="(item,index) in ar()">{{ item() }}</div>
     </div>
   </body>
@@ -40,7 +36,7 @@
   <script src="./package/directive.js"></script>
   <script src="./utils/strTarn.js"></script>
   <script src="./package/responsive.js"></script> -->
-  <script src="./dist/cain.min.js"></script>
+  <script src="https://cainblog.oss-cn-hangzhou.aliyuncs.com/cain.min.js"></script>
   <script>
     const app = createCain({
       use: ".app",
