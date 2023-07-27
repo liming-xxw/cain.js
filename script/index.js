@@ -1,3 +1,5 @@
+import { retrieval } from "../package/core";
+
 // 存放数据的桶子
 let bucket = {};
 // 导出函数
@@ -7,8 +9,9 @@ let cainFuc = {};
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 15:08:09
+ * @Last Modified time: 2023-07-27 15:34:29
  */
+
 const createCain = (app) => {
   // 判断有没有挂载目
   if (document.querySelector(app.use) == null) {
@@ -26,6 +29,7 @@ const createCain = (app) => {
   // 核心函数 检索dom
   retrieval(use);
 };
+window.createCain = createCain
 /*
  * @Title: 创建响应式函数
  * @Dosc: 创建响应式函数对象，返回俩个函数值
@@ -35,6 +39,7 @@ const createCain = (app) => {
  */
 // 全局方法索引
 let uindex = 0;
+
 const createSignal = (val) => {
   let use = "CainState" + uindex;
   bucket[use] = {
@@ -55,3 +60,6 @@ const createSignal = (val) => {
   };
   return [get, set];
 };
+window.createSignal = createSignal
+
+export { bucket, cainFuc, createCain, createSignal };

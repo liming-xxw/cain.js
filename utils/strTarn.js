@@ -1,9 +1,12 @@
+import { returnExpInstance } from "../package/responsive";
+import { cainFuc } from "../script/index";
+import { cainStr,setCainStr } from "../package/directive";
 /*
  * @Title: 分割方法
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 07:21:06
+ * @Last Modified time: 2023-07-27 15:52:26
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -78,6 +81,8 @@ const strRegex = (match, capturedValue) => {
   }
 
   cainFuc[cainf.fuc](cainf.fuc);
-  cainStr = cainf.fuc
+  setCainStr(cainf.fuc)
   return strArr;
 };
+
+export { strObject, strRegex, strSpliceFuc };

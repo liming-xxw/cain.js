@@ -1,9 +1,11 @@
+import { cainFuc,bucket } from "../script/index";
+
 /*
  * @Title: 执行函数方法
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 15:02:02
+ * @Last Modified time: 2023-07-27 15:36:26
  */
 
 let expInstance = null;
@@ -73,3 +75,5 @@ const addResponsive = (use, fn) => {
     }
   });
 };
+
+export { returnExpInstance, addExpInstance, removeExpInstance, addResponsive };

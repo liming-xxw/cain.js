@@ -1,0 +1,5 @@
+require('../utils/strTarn')
+require('../package/directive')
+require('../package/responsive')
+require('../package/core')
+require('../script/index')

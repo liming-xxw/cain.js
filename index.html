@@ -35,20 +35,18 @@
       <div c-for="(item,index) in ar()">{{ item() }}</div>
     </div>
   </body>
-  <script src="./script/index.js"></script>
+  <!-- <script src="./script/index.js"></script>
   <script src="./package/core.js"></script>
   <script src="./package/directive.js"></script>
   <script src="./utils/strTarn.js"></script>
-  <script src="./package/responsive.js"></script>
-  <!-- <script src="./dist/cain.min.js"></script> -->
+  <script src="./package/responsive.js"></script> -->
+  <script src="./dist/cain.min.js"></script>
   <script>
     const app = createCain({
       use: ".app",
       setup() {
         const [cain, setCain] = createSignal(true);
-        const [flag, setFlag] = createSignal(false);
 
-        const [kk, setKk] = createSignal("yellow");
         const [ar, setAr] = createSignal(["xiao", "xiaoxiwen"]);
         setTimeout(() => {
           setCain(false);
@@ -60,9 +58,6 @@
         return {
           cain,
           ar,
-          flag,
-          setFlag,
-          kk,
           kai,
         };
       },

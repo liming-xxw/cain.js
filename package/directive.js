@@ -1,9 +1,18 @@
+import { strObject, strRegex, strSpliceFuc } from "../utils/strTarn";
+import { cainFuc } from "../script/index";
+import { retrieval } from "./core";
+import {
+  returnExpInstance,
+  addExpInstance,
+  removeExpInstance,
+  addResponsive,
+} from "./responsive";
 /*
  * @Title: 注册指令函数
  * @Dosc: 根据不同的指令分配
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-26 15:39:56
+ * @Last Modified time: 2023-07-27 15:52:03
  */
 const directive = (dir, name, node, event) => {
   if (name) {
@@ -41,6 +50,9 @@ const directive = (dir, name, node, event) => {
  * @Last Modified time: 2023-07-15 22:33:58
  */
 var cainStr = "";
+export const setCainStr = (str) => {
+  cainStr = str
+}
 const cainExpression = (str, node) => {
   //  定义好正则匹配
   cainStr = "";
@@ -331,3 +343,4 @@ const cFor = (func, node) => {
     });
   });
 };
+export { directive, cainExpression ,cainStr};

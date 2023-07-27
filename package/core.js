@@ -1,3 +1,4 @@
+import { directive,cainExpression } from "./directive";
 /*
  * @Title: 检索整个dom
  * @Dosc: 根据挂载的dom检索
@@ -33,3 +34,5 @@ const retrieval = (node) => {
     retrieval(child);
   }
 };
+
+export { retrieval };
