@@ -1,4 +1,4 @@
-import { directive,cainExpression,makeStrategy } from "./directive";
+import { cainExpression,makeStrategy } from "./directive";
 /*
  * @Title: 检索整个dom
  * @Dosc: 根据挂载的dom检索
@@ -14,20 +14,19 @@ const retrieval = (node) => {
     }
   } else {
     makeStrategy("c-if",node.getAttribute("c-if"), node)
-    directive("c-for", node.getAttribute("c-for"), node);
-    // directive("c-if", node.getAttribute("c-if"), node);
-    directive("c-show", node.getAttribute("c-show"), node);
-    directive("c-text", node.getAttribute("c-text"), node);
+    makeStrategy("c-for", node.getAttribute("c-for"), node);
+    makeStrategy("c-show", node.getAttribute("c-show"), node);
+    makeStrategy("c-text", node.getAttribute("c-text"), node);
     const attr = node.attributes;
     for (var i = 0; i < attr.length; i++) {
       let attribute = attr[i];
       if (/^c-on:/.test(attribute.name)) {
         const strArr = attribute.nodeName.split(":");
-        directive("c-on", attribute.nodeValue, node, strArr[1]);
+        makeStrategy("c-on", attribute.nodeValue, node, strArr[1]);
       }
       if (/^c-bind:/.test(attribute.name)) {
         const strArr = attribute.nodeName.split(":");
-        directive("c-bind", attribute.nodeValue, node, strArr[1]);
+        makeStrategy("c-bind", attribute.nodeValue, node, strArr[1]);
       }
     }
   }
