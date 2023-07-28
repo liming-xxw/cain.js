@@ -9,4 +9,5 @@
   * [c-show](./directive/c-show.md)
   * [c-text](./directive/c-text.md)
   * [c-html](./directive/c-html.md)
-  
+- api
+  * [createSignal](./api/createSignal.md)
