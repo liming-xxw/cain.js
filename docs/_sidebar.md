@@ -3,7 +3,10 @@
   - [贡献指南](/contribution.md)
 - 指令
   * [c-bind](./directive/c-bind.md)
-
   * [c-on](./directive/c-on.md)
-
+  * [c-for](./directive/c-for.md)
   * [c-if](./directive/c-if.md)
+  * [c-show](./directive/c-show.md)
+  * [c-text](./directive/c-text.md)
+  * [c-html](./directive/c-html.md)
+  
