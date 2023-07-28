@@ -5,7 +5,7 @@
 ```
 <script src="https://cainblog.oss-cn-hangzhou.aliyuncs.com/cain.min.js"><script>
 ```
-详细使用文档请移步Cain.js文档：cain.js 
+详细使用文档请移步Cain.js文档：[cain.js](https://liming-xxw.github.io/cain.js/#/)
 # 进度
 第一版cain.js已经完成，完成指令和响应式
 # 文件描述
