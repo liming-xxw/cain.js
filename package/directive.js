@@ -77,7 +77,7 @@ const directiveStrategy = {
       const { fuc, val } = strSpliceFuc(func, "(", ")");
       //  判断方法有没有传值，没有就将默认的el元素传递进去，模拟原生事件
       if (val) {
-       returnExpInstance(func)
+        returnExpInstance(func);
       } else {
         cainFuc[fuc](el);
       }
@@ -199,7 +199,7 @@ const directiveStrategy = {
   "c-for": (func, node) => {
     const cfor = func.split(" in ");
     const item = strSpliceFuc(cfor[0].trim(), "(", ")");
-    const KeyIn = item.val.split(",");
+    const KeyIn = item.fuc == "" ? item.val.split(",") : [item.fuc];
     const code = cfor[1].trim();
     const arrCode = returnExpInstance(code);
     node.removeAttribute("c-for");
@@ -210,9 +210,15 @@ const directiveStrategy = {
     arrCode.forEach((val, index) => {
       let appNode = oldHtml.cloneNode(true);
       const item = {};
-      item[KeyIn[0]] = (el) => {
+
+      item[KeyIn[0]] = () => {
         return val;
       };
+      try {
+        item[KeyIn[1]] = () => {
+          return index;
+        };
+      } catch (er) {}
       addExpInstance(item);
       retrieval(appNode);
       removeExpInstance(item);
@@ -232,6 +238,11 @@ const directiveStrategy = {
         item[KeyIn[0]] = (el) => {
           return val;
         };
+        try {
+          item[KeyIn[1]] = () => {
+            return index;
+          };
+        } catch (er) {}
         addExpInstance(item);
         retrieval(appNode);
         removeExpInstance(item);
@@ -251,13 +262,12 @@ const makeStrategy = (dir, name, node, event) => {
   }
 };
 
-
 /*
  * @Title: 插值表达式
  * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-28 20:17:20
+ * @Last Modified time: 2023-07-28 21:14:02
  */
 var cainStr = "";
 export const setCainStr = (str) => {
@@ -278,6 +288,5 @@ const cainExpression = (str, node) => {
     });
   }
 };
-
 
 export { cainExpression, cainStr, makeStrategy };

@@ -4,4 +4,6 @@
 - 指令
   * [c-bind](./directive/c-bind.md)
 
+  * [c-on](./directive/c-on.md)
+
   * [c-if](./directive/c-if.md)

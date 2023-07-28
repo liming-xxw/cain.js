@@ -7,20 +7,24 @@
   </head>
   <body>
     <div class="app">
-      <h4 c-on:click="alert('xx')">非常感谢选择{{ cain() }}.js</h4>
+      <h4 c-on:click="setCount(count()+1)">{{ count() }}</h4>
+      <div c-for="(item,index) in arr()">{{ item().id }}</div>
+      <div c-for="item in arr()">{{ item().id }}</div> 
     </div>
   </body>
-
   <script src="./dist/cain.min.js"></script>
   <!-- <script src="https://cainblog.oss-cn-hangzhou.aliyuncs.com/cain.min.js"></script> -->
   <script>
     const app = createCain({
       use: ".app",
       setup() {
-        const [cain,setCain] = createSignal("xiao")
+        const [count, setCount] = createSignal(0);
+        const [arr, setArr] = createSignal([{ id: 0 }, { id: 1 }]);
         return {
-          cain
-        }
+          count,
+          setCount,
+          arr,
+        };
       },
     });
   </script>

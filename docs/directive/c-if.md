@@ -17,6 +17,9 @@ const app = createCain({
       setup() {
         const [flag,setFlag] = createSignal(true)
       },
+      return {
+        flag
+      }
 });
 ```
 <!-- # 表达式使用 -->

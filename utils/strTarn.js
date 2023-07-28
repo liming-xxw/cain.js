@@ -6,7 +6,7 @@ import { cainStr,setCainStr } from "../package/directive";
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-27 15:52:26
+ * @Last Modified time: 2023-07-28 21:01:44
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -77,12 +77,11 @@ const strRegex = (match, capturedValue) => {
   let strArr = returnExpInstance(capturedValue);
   let cainf = strSpliceFuc(capturedValue.trim(), "(", ")");
   if (Array.isArray(strArr)) {
-    strArr = `[${strArr}]`;
+    strArr = `[${strArr.toString()}]`;
   }
-
   cainFuc[cainf.fuc](cainf.fuc);
   setCainStr(cainf.fuc)
-  return strArr;
+  return JSON.stringify(strArr);
 };
 
 export { strObject, strRegex, strSpliceFuc };
