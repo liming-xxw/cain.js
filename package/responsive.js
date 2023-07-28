@@ -5,7 +5,7 @@ import { cainFuc,bucket } from "../script/index";
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-27 15:36:26
+ * @Last Modified time: 2023-07-28 16:08:18
  */
 
 let expInstance = null;

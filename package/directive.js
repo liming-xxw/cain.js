@@ -7,13 +7,33 @@ import {
   removeExpInstance,
   addResponsive,
 } from "./responsive";
-/*
- * @Title: 注册指令函数
- * @Dosc: 根据不同的指令分配
- * @Date: 2023-07-14 20:31:08
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-27 15:52:03
- */
+
+// 策略模式
+const directiveStrategy = {
+  // c-if指令
+  "c-if": (isIf, node) => {
+    const code = returnExpInstance(isIf);
+    node.style.display = code ? "block" : "none";
+    const func = strSpliceFuc(isIf, "(", ")");
+    try {
+      cainFuc[func.fuc](func.fuc);
+      addResponsive(func.fuc, () => {
+        const code = returnExpInstance(isIf);
+        node.style.display = code ? "block" : "none";
+      });
+    } catch (err) {}
+  },
+};
+// 指令策略分发
+const makeStrategy = (dir, name, node, event) => {
+  if (name) {
+    const directivestrategy = directiveStrategy[dir];
+    if (directiveStrategy) {
+      directivestrategy(name, node,event);
+    }
+  }
+};
+
 const directive = (dir, name, node, event) => {
   if (name) {
     switch (dir) {
@@ -46,19 +66,19 @@ const directive = (dir, name, node, event) => {
  * @Title: 插值表达式
  * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
  * @Date: 2023-07-14 20:31:08
- * @Last Modified by: mikey.cain
- * @Last Modified time: 2023-07-15 22:33:58
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2023-07-28 16:25:45
  */
 var cainStr = "";
 export const setCainStr = (str) => {
-  cainStr = str
-}
+  cainStr = str;
+};
 const cainExpression = (str, node) => {
   //  定义好正则匹配
   cainStr = "";
   const regex = /{{(.*?)}}/g;
   const result = str.replace(regex, strRegex);
-  if (cainFuc[cainStr]) {
+  if (cainStr != "") {
     node.innerText = result;
     addResponsive(cainStr, () => {
       const result = str.replace(regex, strRegex);
@@ -78,6 +98,8 @@ const cainExpression = (str, node) => {
  */
 const cIf = (isIf, node) => {
   const code = returnExpInstance(isIf);
+  console.log(isIf);
+  console.log(node);
   node.style.display = code ? "block" : "none";
   const func = strSpliceFuc(isIf, "(", ")");
   cainFuc[func.fuc](func.fuc);
@@ -343,4 +365,4 @@ const cFor = (func, node) => {
     });
   });
 };
-export { directive, cainExpression ,cainStr};
+export { directive, cainExpression, cainStr, makeStrategy };

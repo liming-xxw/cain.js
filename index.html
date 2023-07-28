@@ -7,14 +7,21 @@
   </head>
   <body>
     <div class="app">
-      <h4 c-if="true">非常感谢选择Cain.js</h4>
+      <h4 c-if="true">非常感谢选择{{ cain() }}.js</h4>
     </div>
   </body>
-  <script src="ht tps://cainblog.oss-cn-hangzhou.aliyuncs.com/cain.min.js"></script>
+
+  <script src="./dist/cain.min.js"></script>
+  <!-- <script src="https://cainblog.oss-cn-hangzhou.aliyuncs.com/cain.min.js"></script> -->
   <script>
     const app = createCain({
       use: ".app",
-      setup() {},
+      setup() {
+        const [cain,setCain] = createSignal("xiao")
+        return {
+          cain
+        }
+      },
     });
   </script>
 </html>

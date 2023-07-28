@@ -1,4 +1,4 @@
-import { directive,cainExpression } from "./directive";
+import { directive,cainExpression,makeStrategy } from "./directive";
 /*
  * @Title: 检索整个dom
  * @Dosc: 根据挂载的dom检索
@@ -9,12 +9,13 @@ import { directive,cainExpression } from "./directive";
 const retrieval = (node) => {
   if (node.nodeType === Node.TEXT_NODE) {
     let newText = node.textContent.replace(/^\s|\s$/g, "");
-    if (newText != "") {
+    if (newText.trim() != "") {
       cainExpression(newText, node.parentNode);
     }
   } else {
+    makeStrategy("c-if",node.getAttribute("c-if"), node)
     directive("c-for", node.getAttribute("c-for"), node);
-    directive("c-if", node.getAttribute("c-if"), node);
+    // directive("c-if", node.getAttribute("c-if"), node);
     directive("c-show", node.getAttribute("c-show"), node);
     directive("c-text", node.getAttribute("c-text"), node);
     const attr = node.attributes;
