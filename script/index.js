@@ -4,32 +4,34 @@ import { retrieval } from "../package/core";
 let bucket = {};
 // 导出函数
 let cainFuc = {};
+
+let cainApp = {};
 /*
  * @Title: Cain.js 主入口
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-28 16:01:04
+ * @Last Modified time: 2023-07-29 19:56:28
  */
-
 const createCain = (app) => {
   // 判断有没有挂载目
   if (document.querySelector(app.use) == null) {
     console.error("请先挂载目录 / Please mount the directory first");
     return false;
   }
-
   // 挂载目录
   const use = document.querySelector(app.use);
-
+  // 挂载插件
+  Object.keys(app.plugins).forEach((v) => {
+     app.plugins[v](cainApp);
+  });
   // 函数实现
-  var ufunc = app.setup();
+  var ufunc = app.setup(cainApp);
   cainFuc = ufunc;
-
   // 核心函数 检索dom
   retrieval(use);
 };
-window.createCain = createCain
+window.createCain = createCain;
 /*
  * @Title: 创建响应式函数
  * @Dosc: 创建响应式函数对象，返回俩个函数值
@@ -60,6 +62,6 @@ const createSignal = (val) => {
   };
   return [get, set];
 };
-window.createSignal = createSignal
+window.createSignal = createSignal;
 
 export { bucket, cainFuc, createCain, createSignal };

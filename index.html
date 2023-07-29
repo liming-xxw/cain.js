@@ -9,15 +9,17 @@
     <div class="app">
       <h4 c-on:click="setCount(count()+1)">{{ count() }}</h4>
       <div c-for="(item,index) in arr()">{{ item().id }}</div>
-      <div c-for="item in arr()">{{ item().id }}</div> 
+      <div c-for="item in arr()">{{ item().id }}</div>
     </div>
   </body>
   <script src="./dist/cain.min.js"></script>
+  <script src="./plugins/Store/index.js"></script>
   <!-- <script src="https://cainblog.oss-cn-hangzhou.aliyuncs.com/cain.min.js"></script> -->
   <script>
     const app = createCain({
       use: ".app",
-      setup() {
+      setup(app) {
+        console.log(app)
         const [count, setCount] = createSignal(0);
         const [arr, setArr] = createSignal([{ id: 0 }, { id: 1 }]);
         return {
@@ -25,6 +27,9 @@
           setCount,
           arr,
         };
+      },
+      plugins: {
+        intiStore
       },
     });
   </script>
