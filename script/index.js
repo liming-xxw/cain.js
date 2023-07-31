@@ -5,13 +5,19 @@ let bucket = {};
 // 导出函数
 let cainFuc = {};
 
+// cainApp 全局变量链
+class cainAppJs {
+  use(fn) {
+    fn.install(cainApp);
+  }
+}
 let cainApp = {};
 /*
  * @Title: Cain.js 主入口
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-29 19:56:28
+ * @Last Modified time: 2023-07-31 16:04:53
  */
 const createCain = (app) => {
   // 判断有没有挂载目
@@ -22,9 +28,7 @@ const createCain = (app) => {
   // 挂载目录
   const use = document.querySelector(app.use);
   // 挂载插件
-  Object.keys(app.plugins).forEach((v) => {
-     app.plugins[v](cainApp);
-  });
+  app.plugins(new cainAppJs());
   // 函数实现
   var ufunc = app.setup(cainApp);
   cainFuc = ufunc;
