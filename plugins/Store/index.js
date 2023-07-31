@@ -1,13 +1,20 @@
-const createStore = (name, val) => {};
-const getStore = (name) => {};
-// 持久化插件
-const intiStore = (app) => {
-  const install = (app) => {};
+const createStore = (name, val) => {
+  localStorage.setItem(name, val);
+};
+const getStore = (name) => {
+  localStorage.getItem(name);
+};
 
-  console.log(app);
-  app.store = {};
-  app.store.createStore = createStore;
-  app.store.getStore = getStore;
+// 持久化插件
+const intiStore = (option) => {
+  const install = (app) => {
+    app.addFn("createStore", (name, val) => {
+      createStore(name, val);
+    });
+    app.addFn("getStore", (name) => {
+      getStore(name);
+    });
+  };
   return {
     install,
   };

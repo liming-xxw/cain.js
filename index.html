@@ -19,6 +19,8 @@
     const app = createCain({
       use: ".app",
       setup(app) {
+        console.log(app)
+        app.fn.createStore("xx","xx")
         const [count, setCount] = createSignal(0);
         const [arr, setArr] = createSignal([{ id: 0 }, { id: 1 }]);
         return {
@@ -28,7 +30,6 @@
         };
       },
       plugins: (app) => {
-        app.use(intiStore({ local: true }));
         app.use(intiStore({ local: true }));
       },
     });
