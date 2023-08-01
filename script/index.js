@@ -17,14 +17,24 @@ class cainApp {
   fn = {};
   addFn(name, fn) {
     this.fn[name] = fn;
+    bucket[name] = {
+      use: name,
+      fn: [], 
+    };
+  }
+  addBucket(name, fn) {
+    // bucket[name]
   }
 }
+
+let cainApp = new cainApp();
+
 /*
  * @Title: Cain.js 主入口
  * @Dosc: 入口函数
  * @Date: 2023-07-14 20:16:09
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-01 00:00:23
+ * @Last Modified time: 2023-08-02 00:18:21
  */
 const createCain = (app) => {
   // 判断有没有挂载目

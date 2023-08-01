@@ -1,14 +1,17 @@
-import { cainFuc,bucket } from "../script/index";
+import { cainFuc, bucket } from "../script/index";
 
 /*
  * @Title: 执行函数方法
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-28 16:08:18
+ * @Last Modified time: 2023-08-02 00:30:13
  */
 
 let expInstance = null;
+
+// 新的数据桶子
+let cainBucket = new WeakMap();
 
 function createExpInstance() {
   for (let key in cainFuc) {
@@ -69,6 +72,8 @@ const removeExpInstance = (ar) => {
  * @Last Modified time: 2023-07-20 14:42:57
  */
 const addResponsive = (use, fn) => {
+  console.log(cainFuc);
+  console.log(bucket);
   Object.values(bucket).forEach((v) => {
     if (v.use == use) {
       v.fn.push(fn);
@@ -76,4 +81,26 @@ const addResponsive = (use, fn) => {
   });
 };
 
-export { returnExpInstance, addExpInstance, removeExpInstance, addResponsive };
+// 加入响应式函数
+let idx = 0;
+const addBucket = () => {
+  const use = "cainBucket" + idx;
+  cainBucket.set(use, (depsMap = new Map()));
+  console.log(cainBucket.get(use));
+  idx++;
+  return use;
+};
+
+const setBucket = (use, name) => {
+  if (!cainBucket.has(use)) {
+    return cainBucket.get(use);
+  }
+};
+
+export {
+  returnExpInstance,
+  addExpInstance,
+  removeExpInstance,
+  addResponsive,
+  addBucket,
+};

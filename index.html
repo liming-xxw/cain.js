@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="app">
-      <h4 c-on:click="setCount(count()+1)">{{ count() }}</h4>
+      <h4 c-on:click="setCount(count()+1)">{{ ap() }}</h4>
       <div c-for="(item,index) in arr()">{{ item().id }}</div>
       <div c-for="item in arr()">{{ item().id }}</div>
     </div>
@@ -19,14 +19,22 @@
     const app = createCain({
       use: ".app",
       setup(app) {
-        console.log(app)
-        app.fn.createStore("xx","xx")
+        console.log(app);
+        app.fn.createStore("xx", "xx");
+
+        const ap = app.fn.getStore("xx");
+
+        setTimeout(() => {
+          app.fn.updateStore("xx", "xiaoxi1wen");
+        }, 1000);
+        console.log(ap());
         const [count, setCount] = createSignal(0);
         const [arr, setArr] = createSignal([{ id: 0 }, { id: 1 }]);
         return {
           count,
           setCount,
           arr,
+          ap,
         };
       },
       plugins: (app) => {
