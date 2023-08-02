@@ -7,9 +7,7 @@
   </head>
   <body>
     <div class="app">
-      <h4 c-on:click="setCount(count()+1)">{{ ap() }}</h4>
-      <div c-for="(item,index) in arr()">{{ item().id }}</div>
-      <div c-for="item in arr()">{{ item().id }}</div>
+      <h4>{{ count() }}</h4>
     </div>
   </body>
   <script src="./dist/cain.min.js"></script>
@@ -25,7 +23,7 @@
         const ap = app.fn.getStore("xx");
 
         setTimeout(() => {
-          app.fn.updateStore("xx", "xiaoxi1wen");
+          setCount(100)
         }, 1000);
         console.log(ap());
         const [count, setCount] = createSignal(0);

@@ -5,7 +5,7 @@ import { cainFuc, bucket } from "../script/index";
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-02 00:30:13
+ * @Last Modified time: 2023-08-02 18:05:10
  */
 
 let expInstance = null;
@@ -84,17 +84,48 @@ const addResponsive = (use, fn) => {
 // 加入响应式函数
 let idx = 0;
 const addBucket = () => {
-  const use = "cainBucket" + idx;
-  cainBucket.set(use, (depsMap = new Map()));
-  console.log(cainBucket.get(use));
+  const use = new String("cainBucket" + idx);
+  let depsMap = new Map();
+  cainBucket.set(use, depsMap);
   idx++;
   return use;
 };
 
+// 绑定响应式对象
 const setBucket = (use, name) => {
   if (!cainBucket.has(use)) {
     return cainBucket.get(use);
   }
+  let depsMap = cainBucket.get(use);
+  let desp = new Set();
+  depsMap.set(name, desp);
+};
+
+// 查询绑定方法
+const getBucketFn = (use, name) => {
+  console.log(name);
+  if (!cainBucket.has(use)) {
+    return cainBucket.get(use);
+  }
+  let depsMap = cainBucket.get(use);
+  if (!depsMap.has(name)) {
+    return depsMap.get(name);
+  }
+  let deps = depsMap.get(name);
+  return deps;
+};
+
+// 添加方法
+const setBucketFn = (use, name, fn) => {
+  if (!cainBucket.has(use)) {
+    return cainBucket.get(use);
+  }
+  let depsMap = cainBucket.get(use);
+  if (!depsMap.has(name)) {
+    return depsMap.get(name);
+  }
+  let deps = depsMap.get(name);
+  deps.add(fn);
 };
 
 export {
@@ -103,4 +134,7 @@ export {
   removeExpInstance,
   addResponsive,
   addBucket,
+  setBucket,
+  getBucketFn,
+  setBucketFn,
 };

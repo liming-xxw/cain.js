@@ -2,6 +2,7 @@ import { strObject, strRegex, strSpliceFuc } from "../utils/strTarn";
 import { cainFuc } from "../script/index";
 import { retrieval } from "./core";
 import {
+  setBucketFn,
   returnExpInstance,
   addExpInstance,
   removeExpInstance,
@@ -267,7 +268,7 @@ const makeStrategy = (dir, name, node, event) => {
  * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-28 21:14:02
+ * @Last Modified time: 2023-08-02 17:56:57
  */
 var cainStr = "";
 export const setCainStr = (str) => {
@@ -278,9 +279,15 @@ const cainExpression = (str, node) => {
   cainStr = "";
   const regex = /{{(.*?)}}/g;
   const result = str.replace(regex, strRegex);
+
   if (cainStr != "") {
+    var url = null;
+    cainFuc[cainStr](cainStr, (curl) => {
+      url = curl;
+    });
+    console.log(url);
     node.innerText = result;
-    addResponsive(cainStr, () => {
+    setBucketFn(url, cainStr, () => {
       const result = str.replace(regex, strRegex);
       if (cainFuc[cainStr]) {
         node.innerText = result;

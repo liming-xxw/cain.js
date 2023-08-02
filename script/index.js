@@ -19,7 +19,7 @@ class cainApp {
     this.fn[name] = fn;
     bucket[name] = {
       use: name,
-      fn: [], 
+      fn: [],
     };
   }
   addBucket(name, fn) {
@@ -27,15 +27,6 @@ class cainApp {
   }
 }
 
-let cainApp = new cainApp();
-
-/*
- * @Title: Cain.js 主入口
- * @Dosc: 入口函数
- * @Date: 2023-07-14 20:16:09
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-02 00:18:21
- */
 const createCain = (app) => {
   // 判断有没有挂载目
   if (document.querySelector(app.use) == null) {
@@ -53,36 +44,5 @@ const createCain = (app) => {
   retrieval(use);
 };
 window.createCain = createCain;
-/*
- * @Title: 创建响应式函数
- * @Dosc: 创建响应式函数对象，返回俩个函数值
- * @Date: 2023-07-14 20:16:09
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-15 15:52:12
- */
-// 全局方法索引
-let uindex = 0;
 
-const createSignal = (val) => {
-  let use = "CainState" + uindex;
-  bucket[use] = {
-    use: null,
-    fn: [],
-  };
-  uindex++;
-  let value = val;
-  const get = (cuse) => {
-    if (cuse) bucket[use].use = cuse;
-    return value;
-  };
-  const set = (cain) => {
-    value = cain;
-    bucket[use].fn.forEach((fn) => {
-      fn();
-    });
-  };
-  return [get, set];
-};
-window.createSignal = createSignal;
-
-export { bucket, cainFuc, createCain, createSignal };
+export { bucket, cainFuc, createCain };

@@ -1,18 +1,27 @@
-import { addBucket } from "../responsive";
+import { addBucket, setBucket, getBucketFn } from "../responsive";
 
 const createSignal = (val) => {
-  const use =  addBucket();
+  const use = addBucket();
+  let cuse = null;
   let value = val;
-  const get = (cuse) => {
-    if (cuse) bucket[use].use = cuse;
+  const get = (cause, fn) => {
+    if (cause) {
+      console.log("xiaoxiwen");
+      setBucket(use, cause);
+      cuse = cause;
+      fn(use);
+    }
     return value;
   };
   const set = (cain) => {
     value = cain;
-    bucket[use].fn.forEach((fn) => {
-      fn();
-    });
+    const effcts = getBucketFn(use, cuse);
+    effcts &&
+      effcts.forEach((fn) => {
+        fn();
+      });
   };
   return [get, set];
 };
+
 window.createSignal = createSignal;
