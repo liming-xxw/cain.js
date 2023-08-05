@@ -17,8 +17,11 @@ const directiveStrategy = {
     node.style.display = code ? "block" : "none";
     const func = strSpliceFuc(isIf, "(", ")");
     try {
-      cainFuc[func.fuc](func.fuc);
-      addResponsive(func.fuc, () => {
+      var url = null;
+      cainFuc[func.fuc](func.fuc, (curl) => {
+        url = curl;
+      });
+      setBucketFn(url, func.fuc, () => {
         const code = returnExpInstance(isIf);
         node.style.display = code ? "block" : "none";
       });
@@ -30,27 +33,33 @@ const directiveStrategy = {
     node.style.display = code ? "block" : "none";
     const func = strSpliceFuc(isIf, "(", ")");
     try {
-      cainFuc[func.fuc](func.fuc);
-      addResponsive(func.fuc, () => {
+      var url = null;
+      cainFuc[func.fuc](func.fuc, (curl) => {
+        url = curl;
+      });
+      setBucketFn(url, func.fuc, () => {
         const code = returnExpInstance(isIf);
         node.style.display = code ? "block" : "none";
       });
     } catch (err) {}
   },
   // c-text
-  "c-text": (func, node) => {
+  "c-text": (val, node) => {
     // 执行code返回
-    const code = returnExpInstance(func);
-    let strOk = strSpliceFuc(func, "(", ")");
+    const code = returnExpInstance(val);
+    let func = strSpliceFuc(val, "(", ")");
     let str = code;
     if (Array.isArray(code)) {
       str = `[${code}]`;
     }
     node.innerText = String(str);
     try {
-      cainFuc[strOk.fuc](strOk.fuc);
-      addResponsive(strOk.fuc, () => {
-        const code = returnExpInstance(func);
+      var url = null;
+      cainFuc[func.fuc](func.fuc, (curl) => {
+        url = curl;
+      });
+      setBucketFn(url, func.fuc, () => {
+        const code = returnExpInstance(val);
         let str = code;
         if (Array.isArray(code)) {
           str = `[${code}]`;
@@ -60,13 +69,16 @@ const directiveStrategy = {
     } catch (err) {}
   },
   // c-html
-  "c-html": (func, node) => {
-    const code = returnExpInstance(func);
-    let strOk = strSpliceFuc(func, "(", ")");
+  "c-html": (val, node) => {
+    const code = returnExpInstance(val);
+    let func = strSpliceFuc(val, "(", ")");
     node.innerHTML = code;
     try {
-      cainFuc[strOk.fuc](strOk.fuc);
-      addResponsive(strOk.fuc, () => {
+      var url = null;
+      cainFuc[func.fuc](func.fuc, (curl) => {
+        url = curl;
+      });
+      setBucketFn(url, func.fuc, () => {
         const code = returnExpInstance(func);
         node.innerHTML = code;
       });
@@ -87,45 +99,49 @@ const directiveStrategy = {
   // c-bind
   "c-bind": (func, node, event) => {
     if (event == "style") {
-      let obj = {};
-      obj = strObject(func);
-      const styleArr = {};
-      Object.keys(obj).forEach((v) => {
-        var match = obj[v].match(/^(.*?)\(/);
-        if (match && match.length > 1) {
-          var extractedString = match[1];
-          styleArr[v] = {
-            fuc: extractedString,
-            is: true,
-          };
-        } else {
-          styleArr[v] = {
-            is: false,
-          };
-        }
-      });
+      const bindObj = returnExpInstance(func);
+      Object.keys(bindObj).forEach((v) => {
+        node[event][v] = bindObj[v];
+      }); 
+      // var match = obj[v].match(/^(.*?)\(/);
+      // if (match && match.length > 1) {
+      //   var extractedString = match[1];
+      //   styleArr[v] = {
+      //     fuc: extractedString,
+      //     is: true,
+      //   };
+      // } else {
+      //   styleArr[v] = {
+      //     is: false,
+      //   };
+      // }
+      // console.log(returnExpInstance[obj[v]]);
+      // node.style[v] = returnExpInstance[obj[v]];
 
-      let expInstance = new createExpInstance();
-      let bindstyle = expInstance.executeCode(func);
-      Object.keys(bindstyle).forEach((v) => {
-        node.style[v] = bindstyle[v];
-      });
+      // console.log(obj[v]);
+      // });
 
-      Object.keys(styleArr).forEach((v) => {
-        let sAr = styleArr[v];
-        if (sAr.is) {
-          cainFuc[sAr.fuc](sAr.fuc);
-          Object.values(bucket).forEach((k) => {
-            if (k.use == sAr.fuc) {
-              k.fn.push(() => {
-                let expInstance = new createExpInstance();
-                let bindstyle = expInstance.executeCode(func);
-                node.style[v] = bindstyle[v];
-              });
-            }
-          });
-        }
-      });
+      // let expInstance = new createExpInstance();
+      // let bindstyle = expInstance.executeCode(func);
+      // Object.keys(bindstyle).forEach((v) => {
+      //   node.style[v] = bindstyle[v];
+      // });
+
+      // Object.keys(styleArr).forEach((v) => {
+      //   let sAr = styleArr[v];
+      //   if (sAr.is) {
+      //     cainFuc[sAr.fuc](sAr.fuc);
+      //     Object.values(bucket).forEach((k) => {
+      //       if (k.use == sAr.fuc) {
+      //         k.fn.push(() => {
+      //           let expInstance = new createExpInstance();
+      //           let bindstyle = expInstance.executeCode(func);
+      //           node.style[v] = bindstyle[v];
+      //         });
+      //       }
+      //     });
+      //   }
+      // });
     } else if (event == "class") {
       let obj = {};
       obj = strObject(func);
@@ -268,7 +284,7 @@ const makeStrategy = (dir, name, node, event) => {
  * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-02 17:56:57
+ * @Last Modified time: 2023-08-06 00:04:15
  */
 var cainStr = "";
 export const setCainStr = (str) => {
@@ -285,7 +301,6 @@ const cainExpression = (str, node) => {
     cainFuc[cainStr](cainStr, (curl) => {
       url = curl;
     });
-    console.log(url);
     node.innerText = result;
     setBucketFn(url, cainStr, () => {
       const result = str.replace(regex, strRegex);

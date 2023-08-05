@@ -6,8 +6,9 @@ const createSignal = (val) => {
   let value = val;
   const get = (cause, fn) => {
     if (cause) {
-      console.log("xiaoxiwen");
-      setBucket(use, cause);
+      if (cuse == null) {
+        setBucket(use, cause);
+      }
       cuse = cause;
       fn(use);
     }

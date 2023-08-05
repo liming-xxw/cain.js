@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="app">
-      <h4>{{ count() }}</h4>
+      <h4 c-bind:style="{color:count()==100 ? 'red' : 'blue',fontSize:'10px'}">xiao</h4>
     </div>
   </body>
   <script src="./dist/cain.min.js"></script>
@@ -17,15 +17,11 @@
     const app = createCain({
       use: ".app",
       setup(app) {
-        console.log(app);
         app.fn.createStore("xx", "xx");
-
         const ap = app.fn.getStore("xx");
-
         setTimeout(() => {
-          setCount(100)
+          setCount(100);
         }, 1000);
-        console.log(ap());
         const [count, setCount] = createSignal(0);
         const [arr, setArr] = createSignal([{ id: 0 }, { id: 1 }]);
         return {

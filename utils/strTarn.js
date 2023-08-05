@@ -6,7 +6,7 @@ import { cainStr, setCainStr } from "../package/directive";
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-02 17:52:25
+ * @Last Modified time: 2023-08-05 23:37:57
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -44,25 +44,28 @@ const strSpliceFuc = (str, sliceOne, sliceTow) => {
  * @Last Modified time: 2023-07-17 08:55:21
  */
 const strObject = (str) => {
-  var pairs = str.slice(1, -1).split(",");
+  // var pairs = str.slice(1, -1).split( ",");
   var obj = {};
-  pairs.forEach((pair) => {
-    var parts = pair.split(":");
-    if (parts.length == 1) {
-      console.error("error");
-      return false;
-    }
-    var key = parts[0].trim();
-    var value = parts[1]?.trim();
+  let val = `"${str}"`;
+  console.log(returnExpInstance(str));
+  console.log(JSON.parse(val));
+  // pairs.forEach((pair) => {
+  //   var parts = pair.split(":");
+  //   if (parts.length == 1) {
+  //     console.error("error");
+  //     return false;
+  //   }
+  //   var key = parts[0].trim();
+  //   var value = parts[1]?.trim();
 
-    // 去除属性名和属性值的引号（如果存在）
-    if (value?.startsWith("'") && value?.endsWith("'")) {
-      value = value.slice(1, -1);
-    }
+  //   // 去除属性名和属性值的引号（如果存在）
+  //   if (value?.startsWith("'") && value?.endsWith("'")) {
+  //     value = value.slice(1, -1);
+  //   }
 
-    // 将属性名和属性值添加到对象中
-    obj[key] = value;
-  });
+  //   // 将属性名和属性值添加到对象中
+  //   obj[key] = value;
+  // });
   return obj;
 };
 

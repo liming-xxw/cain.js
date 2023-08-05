@@ -5,7 +5,7 @@ import { cainFuc, bucket } from "../script/index";
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-02 18:05:10
+ * @Last Modified time: 2023-08-05 23:40:16
  */
 
 let expInstance = null;
@@ -103,7 +103,6 @@ const setBucket = (use, name) => {
 
 // 查询绑定方法
 const getBucketFn = (use, name) => {
-  console.log(name);
   if (!cainBucket.has(use)) {
     return cainBucket.get(use);
   }
