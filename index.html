@@ -7,7 +7,10 @@
   </head>
   <body>
     <div class="app">
-      <h4 c-bind:style="{color:count()==100 ? 'red' : 'blue',fontSize:'10px'}">xiao</h4>
+      <h4 c-bind:class="{active:true}" c-bind:style="{color:count()==100 ? 'red' : 'blue',fontSize:'10px'}">
+        xiao
+      </h4>
+      <input c-bind:type="ka()" />
     </div>
   </body>
   <script src="./dist/cain.min.js"></script>
@@ -21,14 +24,17 @@
         const ap = app.fn.getStore("xx");
         setTimeout(() => {
           setCount(100);
+          setKa('text')
         }, 1000);
         const [count, setCount] = createSignal(0);
+        const [ka, setKa] = createSignal("button");
         const [arr, setArr] = createSignal([{ id: 0 }, { id: 1 }]);
         return {
           count,
           setCount,
           arr,
           ap,
+          ka,
         };
       },
       plugins: (app) => {

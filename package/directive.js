@@ -97,118 +97,104 @@ const directiveStrategy = {
     });
   },
   // c-bind
-  "c-bind": (func, node, event) => {
+  "c-bind": (code, node, event) => {
     if (event == "style") {
-      const bindObj = returnExpInstance(func);
-      Object.keys(bindObj).forEach((v) => {
-        node[event][v] = bindObj[v];
-      }); 
-      // var match = obj[v].match(/^(.*?)\(/);
-      // if (match && match.length > 1) {
-      //   var extractedString = match[1];
-      //   styleArr[v] = {
-      //     fuc: extractedString,
-      //     is: true,
-      //   };
-      // } else {
-      //   styleArr[v] = {
-      //     is: false,
-      //   };
-      // }
-      // console.log(returnExpInstance[obj[v]]);
-      // node.style[v] = returnExpInstance[obj[v]];
-
-      // console.log(obj[v]);
-      // });
-
-      // let expInstance = new createExpInstance();
-      // let bindstyle = expInstance.executeCode(func);
-      // Object.keys(bindstyle).forEach((v) => {
-      //   node.style[v] = bindstyle[v];
-      // });
-
-      // Object.keys(styleArr).forEach((v) => {
-      //   let sAr = styleArr[v];
-      //   if (sAr.is) {
-      //     cainFuc[sAr.fuc](sAr.fuc);
-      //     Object.values(bucket).forEach((k) => {
-      //       if (k.use == sAr.fuc) {
-      //         k.fn.push(() => {
-      //           let expInstance = new createExpInstance();
-      //           let bindstyle = expInstance.executeCode(func);
-      //           node.style[v] = bindstyle[v];
-      //         });
-      //       }
-      //     });
-      //   }
-      // });
-    } else if (event == "class") {
-      let obj = {};
-      obj = strObject(func);
-      const styleArr = {};
-      Object.keys(obj).forEach((v) => {
-        var match = obj[v].match(/^(.*?)\(/);
-        if (match && match.length > 1) {
-          var extractedString = match[1];
-          styleArr[v] = {
-            fuc: extractedString,
+      const strObj = strObject(code);
+      const regex = /([a-zA-Z_]\w*)\s*\(\)/;
+      const styleObj = {};
+      Object.keys(strObj).forEach((v) => {
+        const match = strObj[v].match(regex);
+        if (match && match[1]) {
+          const methodName = match[1].trim();
+          styleObj[v] = {
+            fuc: methodName,
             is: true,
           };
         } else {
-          styleArr[v] = {
+          styleObj[v] = {
+            fuc: undefined,
             is: false,
           };
         }
       });
-      let expInstance = new createExpInstance();
-      let bindClass = expInstance.executeCode(func);
-      Object.keys(bindClass).forEach((v) => {
-        if (bindClass[v]) {
+      const bindObj = returnExpInstance(code);
+      Object.keys(bindObj).forEach((v) => {
+        node[event][v] = bindObj[v];
+      });
+      Object.keys(styleObj).forEach((v) => {
+        let func = styleObj[v];
+        if (func.is) {
+          var url = null;
+          cainFuc[func.fuc](func.fuc, (curl) => {
+            url = curl;
+          });
+          setBucketFn(url, func.fuc, () => {
+            const bindObj = returnExpInstance(code);
+            Object.keys(bindObj).forEach((v) => {
+              node[event][v] = bindObj[v];
+            });
+          });
+        }
+      });
+    } else if (event == "class") {
+      const strObj = strObject(code);
+      const bindObj = returnExpInstance(code);
+      const regex = /([a-zA-Z_]\w*)\s*\(\)/;
+      const classObj = {};
+      Object.keys(strObj).forEach((v) => {
+        const match = strObj[v].match(regex);
+        if (match && match[1]) {
+          const methodName = match[1].trim();
+          classObj[v] = {
+            fuc: methodName,
+            is: true,
+          };
+        } else {
+          classObj[v] = {
+            fuc: undefined,
+            is: false,
+          };
+        }
+      });
+
+      Object.keys(bindObj).forEach((v) => {
+        if (bindObj[v]) {
           node.classList.add(v);
         } else {
           node.classList.remove(v);
         }
       });
-      Object.keys(styleArr).forEach((v) => {
-        let sAr = styleArr[v];
-        if (sAr.is) {
-          cainFuc[sAr.fuc](sAr.fuc);
-          Object.values(bucket).forEach((k) => {
-            if (k.use == sAr.fuc) {
-              k.fn.push(() => {
-                let expInstance = new createExpInstance();
-                let bindClass = expInstance.executeCode(func);
-                if (bindClass[v]) {
-                  node.classList.add(v);
-                } else {
-                  node.classList.remove(v);
-                }
-              });
-            }
+
+      Object.keys(classObj).forEach((v) => {
+        let func = classObj[v];
+        if (func.is) {
+          var url = null;
+          cainFuc[func.fuc](func.fuc, (curl) => {
+            url = curl;
+          });
+          setBucketFn(url, func.fuc, () => {
+            Object.keys(bindObj).forEach((v) => {
+              if (bindObj[v]) {
+                node.classList.add(v);
+              } else {
+                node.classList.remove(v);
+              }
+            });
           });
         }
       });
     } else {
-      let expInstance = new createExpInstance();
-      let bindClass = expInstance.executeCode(func);
-      let styleArr = "";
-      var match = func.match(/^(.*?)\(/);
-      if (match && match.length > 1) {
-        var extractedString = match[1];
-        styleArr = extractedString;
-      } else {
-        extractedString = false;
-      }
-      node[event] = bindClass;
-      cainFuc[styleArr](styleArr);
-      Object.values(bucket).forEach((k) => {
-        if (k.use == styleArr) {
-          k.fn.push(() => {
-            let expInstance = new createExpInstance();
-            let bindClass = expInstance.executeCode(func);
-            node[event] = bindClass;
-          });
-        }
+      const arrt = returnExpInstance(code);
+      node[event] = arrt;
+      const regex = /([a-zA-Z_]\w*)\s*\(\)/;
+      let func = code.match(regex);
+      var url = null;
+      cainFuc[func[1]](func[1], (curl) => {
+        url = curl;
+      });
+      setBucketFn(url, func[1], () => {
+        const arrt = returnExpInstance(code);
+        node[event] = arrt;
       });
     }
   },
@@ -284,7 +270,7 @@ const makeStrategy = (dir, name, node, event) => {
  * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-06 00:04:15
+ * @Last Modified time: 2023-08-07 22:23:36
  */
 var cainStr = "";
 export const setCainStr = (str) => {

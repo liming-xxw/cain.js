@@ -6,7 +6,7 @@ import { cainStr, setCainStr } from "../package/directive";
  * @Dosc: 分割方法
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-05 23:37:57
+ * @Last Modified time: 2023-08-07 21:18:55
  */
 const strSpliceFuc = (str, sliceOne, sliceTow) => {
   const arr = [];
@@ -43,12 +43,19 @@ const strSpliceFuc = (str, sliceOne, sliceTow) => {
  * @Last Modified by: mikey.zhaopeng
  * @Last Modified time: 2023-07-17 08:55:21
  */
-const strObject = (str) => {
-  // var pairs = str.slice(1, -1).split( ",");
-  var obj = {};
-  let val = `"${str}"`;
-  console.log(returnExpInstance(str));
-  console.log(JSON.parse(val));
+const strObject = (inputString) => {
+  const regex = /(\w+)\s*:\s*('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|[^,}]+)/g;
+
+  // 存储提取的键值对
+  const keyValuePairs = {};
+  
+  let match;
+  while ((match = regex.exec(inputString)) !== null) {
+    const key = match[1];
+    const value = match[2].trim().replace(/^['"]|['"]$/g, ''); // 去除引号并去除首尾空格
+    keyValuePairs[key] = value;
+  }
+  
   // pairs.forEach((pair) => {
   //   var parts = pair.split(":");
   //   if (parts.length == 1) {
@@ -66,7 +73,7 @@ const strObject = (str) => {
   //   // 将属性名和属性值添加到对象中
   //   obj[key] = value;
   // });
-  return obj;
+  return keyValuePairs;
 };
 
 /*
