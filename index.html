@@ -7,8 +7,11 @@
   </head>
   <body>
     <div class="app">
-      <h4 c-bind:class="{active:true}" c-bind:style="{color:count()==100 ? 'red' : 'blue',fontSize:'10px'}">
-        xiao
+      <h4
+        c-bind:class="{active:true}"
+        c-bind:style="{color:count()==100 ? 'red' : 'blue',fontSize:'10px'}"
+      >
+        {{ ap()}}
       </h4>
       <input c-bind:type="ka()" />
     </div>
@@ -20,11 +23,13 @@
     const app = createCain({
       use: ".app",
       setup(app) {
+        console.log(app);
         app.fn.createStore("xx", "xx");
         const ap = app.fn.getStore("xx");
         setTimeout(() => {
           setCount(100);
-          setKa('text')
+          setKa("text");
+          app.fn.updateStore("xx","xiao")
         }, 1000);
         const [count, setCount] = createSignal(0);
         const [ka, setKa] = createSignal("button");
@@ -32,8 +37,8 @@
         return {
           count,
           setCount,
-          arr,
           ap,
+          arr,
           ka,
         };
       },

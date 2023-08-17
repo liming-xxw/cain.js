@@ -1,12 +1,11 @@
 import { strObject, strRegex, strSpliceFuc } from "../utils/strTarn";
-import { cainFuc } from "../script/index";
+import { cainBucket, cainFuc } from "../script/index";
 import { retrieval } from "./core";
 import {
   setBucketFn,
   returnExpInstance,
   addExpInstance,
   removeExpInstance,
-  addResponsive,
 } from "./responsive";
 
 // 策略模式
@@ -229,8 +228,11 @@ const directiveStrategy = {
       nodeArr.push(appNode);
     });
     let strCode = strSpliceFuc(code, "(", ")");
-    cainFuc[strCode.fuc](strCode.fuc);
-    addResponsive(strCode.fuc, () => {
+    var url = null;
+    cainFuc[strCode.fuc](strCode.fuc, (curl) => {
+      url = curl;
+    });
+    setBucketFn(url, func[1], () => {
       const arrCode = returnExpInstance(code);
       let ar = [...nodeArr];
       nodeArr = [];
@@ -270,7 +272,7 @@ const makeStrategy = (dir, name, node, event) => {
  * @Dosc: 根据传过来的字符串提取出插值表达式的语法，然后对应的去替换成方法，完成数据的响应
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-07 22:23:36
+ * @Last Modified time: 2023-08-18 06:47:31
  */
 var cainStr = "";
 export const setCainStr = (str) => {
@@ -287,6 +289,9 @@ const cainExpression = (str, node) => {
     cainFuc[cainStr](cainStr, (curl) => {
       url = curl;
     });
+
+    console.log(cainBucket)
+
     node.innerText = result;
     setBucketFn(url, cainStr, () => {
       const result = str.replace(regex, strRegex);

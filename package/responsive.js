@@ -1,17 +1,14 @@
-import { cainFuc, bucket } from "../script/index";
+import { cainFuc, cainBucket } from "../script/index";
 
 /*
  * @Title: 执行函数方法
  * @Dosc: 根据传递的函数方法，然后用with的特性，实现执行函数
  * @Date: 2023-07-14 20:31:08
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-08-05 23:40:16
+ * @Last Modified time: 2023-08-18 06:41:10
  */
 
 let expInstance = null;
-
-// 新的数据桶子
-let cainBucket = new WeakMap();
 
 function createExpInstance() {
   for (let key in cainFuc) {
@@ -64,23 +61,6 @@ const removeExpInstance = (ar) => {
   expInstance.removeCode(ar);
 };
 
-/*
- * @Title: 添加响应式方法
- * @Dosc: 优化加入响应式操作，可以更加简单添加方法
- * @Date: 2023-07-14 20:31:08
- * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2023-07-20 14:42:57
- */
-const addResponsive = (use, fn) => {
-  console.log(cainFuc);
-  console.log(bucket);
-  Object.values(bucket).forEach((v) => {
-    if (v.use == use) {
-      v.fn.push(fn);
-    }
-  });
-};
-
 // 加入响应式函数
 let idx = 0;
 const addBucket = () => {
@@ -131,7 +111,6 @@ export {
   returnExpInstance,
   addExpInstance,
   removeExpInstance,
-  addResponsive,
   addBucket,
   setBucket,
   getBucketFn,
