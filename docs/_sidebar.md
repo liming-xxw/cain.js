@@ -11,3 +11,5 @@
   * [c-html](./directive/c-html.md)
 - api
   * [createSignal](./api/createSignal.md)
+- plugins
+  * [cains](./plugins/Store.md)
